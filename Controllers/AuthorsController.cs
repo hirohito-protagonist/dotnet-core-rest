@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using dotnet_core_rest.Services;
 using dotnet_core_rest.Models;
+using AutoMapper;
 
 namespace dotnet_core_rest.Controllers
 {
@@ -21,16 +22,7 @@ namespace dotnet_core_rest.Controllers
         public IActionResult GetAuthors()
         {
             var authorsFromRepository = _libraryRepository.GetAuthors();
-            var authors = new List<AuthorDto>();
-
-            foreach (var author in authorsFromRepository)
-            {
-                authors.Add(new AuthorDto(){
-                    Id = author.Id,
-                    Name = $"{author.FirstName} {author.LastName}",
-                    Genre = author.Genre
-                });
-            }
+            var authors = Mapper.Map<IEnumerable<AuthorDto>>(authorsFromRepository);
             return new JsonResult(authors);
         }
 

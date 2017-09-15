@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using dotnet_core_rest.Services;
+using AutoMapper;
 
 namespace dotnet_core_rest
 {
@@ -35,6 +36,14 @@ namespace dotnet_core_rest
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            AutoMapper.Mapper.Initialize(cfg =>
+            {
+                cfg.CreateMap<Entities.Author, Models.AuthorDto>()
+                    .ForMember(dest => dest.Name, opt => opt.MapFrom(src =>
+                        $"{src.FirstName} {src.LastName}"
+                    ));    
+            });
 
             app.UseMvc();
         }
