@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using dotnet_core_rest.Entities;
 
 namespace dotnet_core_rest.Services
@@ -22,5 +23,11 @@ namespace dotnet_core_rest.Services
 
             return authors;
         }
+
+        public Author GetAuthor(Guid Id)
+        {
+            return GetAuthors().FirstOrDefault(a => a.Id == Id);
+        }
+
     }
 }

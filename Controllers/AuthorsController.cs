@@ -23,7 +23,21 @@ namespace dotnet_core_rest.Controllers
         {
             var authorsFromRepository = _libraryRepository.GetAuthors();
             var authors = Mapper.Map<IEnumerable<AuthorDto>>(authorsFromRepository);
-            return new JsonResult(authors);
+            return Ok(authors);
+        }
+
+        [HttpGet("{id}")]
+        public IActionResult GetAuthors(Guid id)
+        {
+            var authorFromRepository = _libraryRepository.GetAuthor(id);
+
+            if (authorFromRepository == null)
+            {
+                return NotFound();
+            }
+
+            var author = Mapper.Map<AuthorDto>(authorFromRepository);
+            return Ok(author);
         }
 
     }

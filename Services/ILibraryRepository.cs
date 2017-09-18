@@ -7,5 +7,6 @@ namespace dotnet_core_rest.Services
     public interface ILibraryRepository
     {
         IEnumerable<Author> GetAuthors();
+        Author GetAuthor(Guid Id);
     }
 }
