@@ -8,8 +8,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using Microsoft.EntityFrameworkCore;
 using dotnet_core_rest.Services;
 using dotnet_core_rest.Helpers;
+using dotnet_core_rest.Entities;
 using AutoMapper;
 
 namespace dotnet_core_rest
@@ -27,11 +29,12 @@ namespace dotnet_core_rest
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
+            services.AddDbContext<BookLibraryContext>(options => options.UseInMemoryDatabase("BookLibraryDatabase"));
             services.AddScoped<ILibraryRepository, LibraryRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, BookLibraryContext bookLibraryContext)
         {
             if (env.IsDevelopment())
             {
@@ -49,6 +52,8 @@ namespace dotnet_core_rest
                     ));    
             });
 
+            bookLibraryContext.EnsureSeedDataForContext();
+            
             app.UseMvc();
         }
     }
