@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Mvc.Formatters.Xml;
 using dotnet_core_rest.Services;
 using dotnet_core_rest.Helpers;
 using dotnet_core_rest.Entities;
@@ -28,7 +29,11 @@ namespace dotnet_core_rest
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services.AddMvc(setupAction => 
+            {
+                setupAction.ReturnHttpNotAcceptable = true;
+            }).AddXmlSerializerFormatters();
+
             services.AddDbContext<BookLibraryContext>(options => options.UseInMemoryDatabase("BookLibraryDatabase"));
             services.AddScoped<ILibraryRepository, LibraryRepository>();
         }
