@@ -25,5 +25,15 @@ namespace dotnet_core_rest.Services
             return _context.Authors.FirstOrDefault(a => a.Id == Id);
         }
 
+        public void AddAuthor(Author author)
+        {
+            author.Id = Guid.NewGuid();
+            _context.Authors.Add(author);
+        }
+
+        public bool Save()
+        {
+            return _context.SaveChanges() >= 0;
+        }
     }
 }

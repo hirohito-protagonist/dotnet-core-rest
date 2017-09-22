@@ -54,7 +54,9 @@ namespace dotnet_core_rest
                     ))
                     .ForMember(dest => dest.Age, opt => opt.MapFrom(src =>
                         src.DateOfBirth.GetCurrentAge()
-                    ));    
+                    ));
+                
+                cfg.CreateMap<Models.AuthorCreationDto, Entities.Author>(); 
             });
 
             bookLibraryContext.EnsureSeedDataForContext();

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using dotnet_core_rest.Services;
 using dotnet_core_rest.Models;
+using dotnet_core_rest.Entities;
 using AutoMapper;
 
 namespace dotnet_core_rest.Controllers
@@ -26,7 +27,7 @@ namespace dotnet_core_rest.Controllers
             return Ok(authors);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "GetAuthor")]
         public IActionResult GetAuthors(Guid id)
         {
             var authorFromRepository = _libraryRepository.GetAuthor(id);
@@ -40,5 +41,27 @@ namespace dotnet_core_rest.Controllers
             return Ok(author);
         }
 
+        [HttpPost]
+        public IActionResult CreateAuthor([FromBody] AuthorCreationDto author)
+        {
+
+            if (author == null)
+            {
+                return BadRequest();
+            }
+
+            var authorEntity = Mapper.Map<Author>(author);
+
+            _libraryRepository.AddAuthor(authorEntity);
+
+            if (!_libraryRepository.Save())
+            {
+                return StatusCode(500, "A problem happen with save your author");
+            }
+
+            var authorReturn = Mapper.Map<AuthorDto>(authorEntity);
+
+            return CreatedAtRoute("GetAuthor", new { id = authorReturn.Id }, authorReturn);
+        }
     }
 }

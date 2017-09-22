@@ -8,5 +8,7 @@ namespace dotnet_core_rest.Services
     {
         IEnumerable<Author> GetAuthors();
         Author GetAuthor(Guid Id);
+        void AddAuthor(Author author);
+        bool Save();
     }
 }
