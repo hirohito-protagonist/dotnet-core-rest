@@ -31,6 +31,11 @@ namespace dotnet_core_rest.Services
             _context.Authors.Add(author);
         }
 
+        public void DeleteAuthor(Author author)
+        {
+            _context.Authors.Remove(author);
+        }
+
         public bool Save()
         {
             return _context.SaveChanges() >= 0;

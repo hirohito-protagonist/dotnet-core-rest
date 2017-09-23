@@ -63,5 +63,24 @@ namespace dotnet_core_rest.Controllers
 
             return CreatedAtRoute("GetAuthor", new { id = authorReturn.Id }, authorReturn);
         }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteAuthor(Guid id)
+        {
+            var authorFromRepository = _libraryRepository.GetAuthor(id);
+            if (authorFromRepository == null)
+            {
+                return NotFound();
+            }
+
+            _libraryRepository.DeleteAuthor(authorFromRepository);
+
+            if (!_libraryRepository.Save())
+            {
+                return StatusCode(500, $"Delete {id} author failed on save.");
+            }
+
+            return NoContent();
+        }
     }
 }
