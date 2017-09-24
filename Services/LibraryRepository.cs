@@ -36,6 +36,15 @@ namespace dotnet_core_rest.Services
             _context.Authors.Remove(author);
         }
 
+        public bool AuthorExists(Guid authorId)
+        {
+            return _context.Authors.Any(a => a.Id == authorId);
+        }
+
+        public IEnumerable<Book> GetBooksForAuthor(Guid authorId)
+        {
+            return _context.Books.Where(b => b.AuthorId == authorId).OrderBy(b => b.Title).ToList();
+        }
         public bool Save()
         {
             return _context.SaveChanges() >= 0;
