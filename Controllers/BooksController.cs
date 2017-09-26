@@ -32,5 +32,23 @@ namespace dotnet_core_rest.Controllers
 
             return Ok(books);
         }
+
+        [HttpGet("{id}")]
+        public IActionResult GetBookForAuthor(Guid authorId, Guid id)
+        {
+            if (!_libraryRepository.AuthorExists(authorId))
+            {
+                return NotFound();
+            }
+
+            var book = _libraryRepository.GetBookForAuthor(authorId, id);
+            if (book == null)
+            {
+                return NotFound();
+            }
+            var bookForAuthor = Mapper.Map<BookDto>(book);
+
+            return Ok(bookForAuthor);
+        }
     }
 }

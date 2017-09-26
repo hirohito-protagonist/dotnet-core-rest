@@ -45,6 +45,12 @@ namespace dotnet_core_rest.Services
         {
             return _context.Books.Where(b => b.AuthorId == authorId).OrderBy(b => b.Title).ToList();
         }
+
+        public Book GetBookForAuthor(Guid authorId, Guid id)
+        {
+            return _context.Books.Where(b => b.AuthorId == authorId && b.Id == id).FirstOrDefault();
+        }
+
         public bool Save()
         {
             return _context.SaveChanges() >= 0;
