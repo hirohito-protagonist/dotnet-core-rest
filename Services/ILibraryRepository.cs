@@ -13,6 +13,7 @@ namespace dotnet_core_rest.Services
         bool AuthorExists(Guid Id);
         IEnumerable<Book> GetBooksForAuthor(Guid authorId);
         Book GetBookForAuthor(Guid authorId, Guid author);
+        void DeleteBook(Book book);
         bool Save();
     }
 }

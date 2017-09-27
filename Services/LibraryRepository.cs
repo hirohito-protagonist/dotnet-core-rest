@@ -51,6 +51,11 @@ namespace dotnet_core_rest.Services
             return _context.Books.Where(b => b.AuthorId == authorId && b.Id == id).FirstOrDefault();
         }
 
+        public void DeleteBook(Book book)
+        {
+            _context.Books.Remove(book);
+        }
+
         public bool Save()
         {
             return _context.SaveChanges() >= 0;

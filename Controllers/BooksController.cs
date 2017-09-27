@@ -50,5 +50,29 @@ namespace dotnet_core_rest.Controllers
 
             return Ok(bookForAuthor);
         }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteBookForAuthor(Guid authorId, Guid id)
+        {
+            if (!_libraryRepository.AuthorExists(authorId))
+            {
+                return NotFound();
+            }
+
+            var book = _libraryRepository.GetBookForAuthor(authorId, id);
+            if (book == null)
+            {
+                return NotFound();
+            }
+
+            _libraryRepository.DeleteBook(book);
+
+            if (!_libraryRepository.Save())
+            {
+                return StatusCode(500, $"Deleting book {id} for author {authorId} failed on save.");
+            }
+            
+            return NoContent();
+        }
     }
 }
