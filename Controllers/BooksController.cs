@@ -74,5 +74,35 @@ namespace dotnet_core_rest.Controllers
             
             return NoContent();
         }
+
+        [HttpPut("{id}")]
+        public IActionResult UpdateBookForAuthor(Guid authorId, Guid id, [FromBody] BookUpdateDto book)
+        {
+            if (book == null)
+            {
+                return BadRequest();
+            }
+
+            if (!_libraryRepository.AuthorExists(authorId))
+            {
+                return NotFound();
+            }
+
+            var bookFromRepository = _libraryRepository.GetBookForAuthor(authorId, id);
+            if (bookFromRepository == null)
+            {
+                return NotFound();
+            }
+
+            Mapper.Map(book, bookFromRepository);
+
+
+            if (!_libraryRepository.Save())
+            {
+                return StatusCode(500, $"Updating book {id} for author {authorId} failed on save.");
+            }
+
+            return NoContent();
+        }
     }
 }
