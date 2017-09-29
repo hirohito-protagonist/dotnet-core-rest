@@ -61,6 +61,8 @@ namespace dotnet_core_rest
                 cfg.CreateMap<Models.AuthorCreationDto, Entities.Author>(); 
 
                 cfg.CreateMap<Models.BookUpdateDto, Entities.Book>();
+
+                cfg.CreateMap<Entities.Book, Models.BookUpdateDto>();
             });
 
             bookLibraryContext.EnsureSeedDataForContext();
