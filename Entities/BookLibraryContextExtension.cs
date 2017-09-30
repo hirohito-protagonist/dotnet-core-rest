@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace dotnet_core_rest.Entities
+namespace DotNetCoreRest.Entities
 {
     public static class BookLibraryContextExtension
     {

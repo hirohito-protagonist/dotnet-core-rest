@@ -10,12 +10,12 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Formatters.Xml;
-using dotnet_core_rest.Services;
-using dotnet_core_rest.Helpers;
-using dotnet_core_rest.Entities;
+using DotNetCoreRest.Services;
+using DotNetCoreRest.Helpers;
+using DotNetCoreRest.Entities;
 using AutoMapper;
 
-namespace dotnet_core_rest
+namespace DotNetCoreRest
 {
     public class Startup
     {

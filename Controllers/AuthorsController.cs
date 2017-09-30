@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using dotnet_core_rest.Services;
-using dotnet_core_rest.Models;
-using dotnet_core_rest.Entities;
+using DotNetCoreRest.Services;
+using DotNetCoreRest.Models;
+using DotNetCoreRest.Entities;
 using AutoMapper;
 
-namespace dotnet_core_rest.Controllers
+namespace DotNetCoreRest.Controllers
 {
     [Route("api/authors")]
     public class AuthorsController : Controller

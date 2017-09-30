@@ -1,6 +1,6 @@
 using System;
 
-namespace dotnet_core_rest.Models
+namespace DotNetCoreRest.Models
 {
     public class BookDto
     {

@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using dotnet_core_rest.Entities;
+using DotNetCoreRest.Entities;
 
-namespace dotnet_core_rest.Services
+namespace DotNetCoreRest.Services
 {
     public interface ILibraryRepository
     {
