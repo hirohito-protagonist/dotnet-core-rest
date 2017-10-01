@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
 using DotNetCoreRest.Models;
 using DotNetCoreRest.Services;
+using DotNetCoreRest.Entities;
 
 
 namespace DotNetCoreRest.Controllers
@@ -34,7 +35,7 @@ namespace DotNetCoreRest.Controllers
             return Ok(books);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "GetBookForAuthor")]
         public IActionResult GetBookForAuthor(Guid authorId, Guid id)
         {
             if (!_libraryRepository.AuthorExists(authorId))
@@ -50,6 +51,33 @@ namespace DotNetCoreRest.Controllers
             var bookForAuthor = Mapper.Map<BookDto>(book);
 
             return Ok(bookForAuthor);
+        }
+
+        [HttpPost()]
+        public IActionResult CreateBookForAuthor(Guid authorId, [FromBody] BookCreationDto book)
+        {
+            if (book == null)
+            {
+                return BadRequest();
+            }
+
+            if (!_libraryRepository.AuthorExists(authorId))
+            {
+                return NotFound();
+            }
+
+            var bookToAdd = Mapper.Map<Book>(book);
+
+            _libraryRepository.AddBookForAuthor(authorId, bookToAdd);
+
+            if (!_libraryRepository.Save())
+            {
+                return StatusCode(500, $"Creating a book for author {authorId} failed on save.");
+            }
+
+            var bookToReturn = Mapper.Map<BookDto>(bookToAdd);
+            
+            return CreatedAtRoute("GetBookForAuthor", new { authorId = authorId, id = bookToReturn.Id }, bookToReturn);
         }
 
         [HttpDelete("{id}")]

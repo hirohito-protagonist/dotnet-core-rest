@@ -56,6 +56,19 @@ namespace DotNetCoreRest.Services
             _context.Books.Remove(book);
         }
 
+        public void AddBookForAuthor(Guid authorId, Book book)
+        {
+            var author = GetAuthor(authorId);
+            if (author != null)
+            {
+                if (book.Id == null)
+                {
+                    book.Id = Guid.NewGuid();
+                }
+                author.Books.Add(book);
+            }
+        }
+
         public bool Save()
         {
             return _context.SaveChanges() >= 0;

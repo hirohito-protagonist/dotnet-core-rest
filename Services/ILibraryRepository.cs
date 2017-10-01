@@ -13,6 +13,7 @@ namespace DotNetCoreRest.Services
         bool AuthorExists(Guid Id);
         IEnumerable<Book> GetBooksForAuthor(Guid authorId);
         Book GetBookForAuthor(Guid authorId, Guid author);
+        void AddBookForAuthor(Guid authorId, Book book);
         void DeleteBook(Book book);
         bool Save();
     }

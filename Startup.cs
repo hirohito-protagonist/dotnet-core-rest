@@ -63,6 +63,8 @@ namespace DotNetCoreRest
                 cfg.CreateMap<Models.BookUpdateDto, Entities.Book>();
 
                 cfg.CreateMap<Entities.Book, Models.BookUpdateDto>();
+
+                cfg.CreateMap<Models.BookCreationDto, Entities.Book>();
             });
 
             bookLibraryContext.EnsureSeedDataForContext();
