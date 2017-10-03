@@ -117,6 +117,11 @@ namespace DotNetCoreRest.Controllers
                 return BadRequest();
             }
 
+            if (!ModelState.IsValid)
+            {
+                return StatusCode(422, $"Invalid book data for author {authorId}.");
+            }
+
             if (!_libraryRepository.AuthorExists(authorId))
             {
                 return NotFound();
