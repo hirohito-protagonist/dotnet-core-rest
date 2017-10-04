@@ -54,7 +54,7 @@ namespace DotNetCoreRest.Controllers
         }
 
         [HttpPost()]
-        public IActionResult CreateBookForAuthor(Guid authorId, [FromBody] BookCreationDto book)
+        public IActionResult CreateBookForAuthor(Guid authorId, [FromBody] BookManipulationDto book)
         {
             if (book == null)
             {
@@ -110,7 +110,7 @@ namespace DotNetCoreRest.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateBookForAuthor(Guid authorId, Guid id, [FromBody] BookUpdateDto book)
+        public IActionResult UpdateBookForAuthor(Guid authorId, Guid id, [FromBody] BookManipulationDto book)
         {
             if (book == null)
             {
@@ -145,7 +145,7 @@ namespace DotNetCoreRest.Controllers
         }
 
         [HttpPatch("{id}")]
-        public IActionResult PartiallyUpdateBookForAuthor(Guid authorId, Guid id, [FromBody] JsonPatchDocument<BookUpdateDto> patchDoc)
+        public IActionResult PartiallyUpdateBookForAuthor(Guid authorId, Guid id, [FromBody] JsonPatchDocument<BookManipulationDto> patchDoc)
         {
             if (patchDoc == null)
             {
@@ -163,7 +163,7 @@ namespace DotNetCoreRest.Controllers
                 return NotFound();
             }
 
-            var bookToPatch = Mapper.Map<BookUpdateDto>(bookFromRepository);
+            var bookToPatch = Mapper.Map<BookManipulationDto>(bookFromRepository);
             patchDoc.ApplyTo(bookToPatch);
 
             Mapper.Map(bookToPatch, bookFromRepository);

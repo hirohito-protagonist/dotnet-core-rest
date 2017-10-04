@@ -1,8 +1,9 @@
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace DotNetCoreRest.Models
 {
-    public class BookCreationDto
+    public class BookManipulationDto
     {
         [Required]
         [MaxLength(100)]

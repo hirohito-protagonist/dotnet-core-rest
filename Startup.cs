@@ -60,11 +60,9 @@ namespace DotNetCoreRest
                 
                 cfg.CreateMap<Models.AuthorCreationDto, Entities.Author>(); 
 
-                cfg.CreateMap<Models.BookUpdateDto, Entities.Book>();
+                cfg.CreateMap<Entities.Book, Models.BookManipulationDto>();
 
-                cfg.CreateMap<Entities.Book, Models.BookUpdateDto>();
-
-                cfg.CreateMap<Models.BookCreationDto, Entities.Book>();
+                cfg.CreateMap<Models.BookManipulationDto, Entities.Book>();
             });
 
             bookLibraryContext.EnsureSeedDataForContext();
