@@ -164,7 +164,14 @@ namespace DotNetCoreRest.Controllers
             }
 
             var bookToPatch = Mapper.Map<BookManipulationDto>(bookFromRepository);
-            patchDoc.ApplyTo(bookToPatch);
+            patchDoc.ApplyTo(bookToPatch, ModelState);
+
+            TryValidateModel(bookToPatch);
+
+            if (!ModelState.IsValid)
+            {
+                return StatusCode(422, $"Invalid book data for author {authorId}.");
+            }
 
             Mapper.Map(bookToPatch, bookFromRepository);
 
