@@ -6,6 +6,7 @@ using AutoMapper;
 using DotNetCoreRest.Models;
 using DotNetCoreRest.Services;
 using DotNetCoreRest.Entities;
+using DotNetCoreRest.Helpers;
 
 
 namespace DotNetCoreRest.Controllers
@@ -63,7 +64,7 @@ namespace DotNetCoreRest.Controllers
 
             if (!ModelState.IsValid)
             {
-                return StatusCode(422, $"Invalid book data for author {authorId}.");
+                return new UnprocessableEntityObjectResult(ModelState);
             }
 
             if (!_libraryRepository.AuthorExists(authorId))
@@ -119,7 +120,7 @@ namespace DotNetCoreRest.Controllers
 
             if (!ModelState.IsValid)
             {
-                return StatusCode(422, $"Invalid book data for author {authorId}.");
+                return new UnprocessableEntityObjectResult(ModelState);
             }
 
             if (!_libraryRepository.AuthorExists(authorId))
@@ -170,7 +171,7 @@ namespace DotNetCoreRest.Controllers
 
             if (!ModelState.IsValid)
             {
-                return StatusCode(422, $"Invalid book data for author {authorId}.");
+                return new UnprocessableEntityObjectResult(ModelState);
             }
 
             Mapper.Map(bookToPatch, bookFromRepository);
