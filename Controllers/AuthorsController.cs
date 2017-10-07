@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using DotNetCoreRest.Services;
 using DotNetCoreRest.Models;
 using DotNetCoreRest.Entities;
+using DotNetCoreRest.Helpers;
 using AutoMapper;
 
 namespace DotNetCoreRest.Controllers
@@ -19,10 +20,11 @@ namespace DotNetCoreRest.Controllers
             _libraryRepository = libraryRepository;
         }
 
-        [HttpGet()]
-        public IActionResult GetAuthors()
+        [HttpGet(Name = "GetAuthors")]
+        public IActionResult GetAuthors(AuthorResourceParameters authorResourceParameters)
         {
-            var authorsFromRepository = _libraryRepository.GetAuthors();
+
+            var authorsFromRepository = _libraryRepository.GetAuthors(authorResourceParameters);
             var authors = Mapper.Map<IEnumerable<AuthorDto>>(authorsFromRepository);
             return Ok(authors);
         }

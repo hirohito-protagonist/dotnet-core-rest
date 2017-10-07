@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using DotNetCoreRest.Entities;
+using DotNetCoreRest.Helpers;
 
 namespace DotNetCoreRest.Services
 {
@@ -15,9 +16,14 @@ namespace DotNetCoreRest.Services
             _context = context;
         }
 
-        public IEnumerable<Author> GetAuthors()
+        public IEnumerable<Author> GetAuthors(AuthorResourceParameters authorResourceParameters)
         {
-            return _context.Authors.OrderBy(a => a.FirstName).ThenBy(a => a.LastName).ToList();
+            return _context.Authors
+                .OrderBy(a => a.FirstName)
+                .ThenBy(a => a.LastName)
+                .Skip(authorResourceParameters.PageSize * (authorResourceParameters.PageNumber - 1))
+                .Take(authorResourceParameters.PageSize)
+                .ToList();
         }
 
         public Author GetAuthor(Guid Id)
