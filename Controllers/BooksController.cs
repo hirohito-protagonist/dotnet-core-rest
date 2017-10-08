@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -16,10 +17,12 @@ namespace DotNetCoreRest.Controllers
     {
 
         private ILibraryRepository _libraryRepository;
+        private IUrlHelper _urlHelper;
 
-        public BooksController(ILibraryRepository libraryRepository)
+        public BooksController(ILibraryRepository libraryRepository, IUrlHelper urlHelper)
         {
             _libraryRepository = libraryRepository;
+            _urlHelper = urlHelper;
         }
 
         [HttpGet()]
@@ -32,6 +35,11 @@ namespace DotNetCoreRest.Controllers
 
             var booksFromRepository = _libraryRepository.GetBooksForAuthor(authorId);
             var books = Mapper.Map<IEnumerable<BookDto>>(booksFromRepository);
+
+            books = books.Select(book => 
+            {
+                return CreateLinksForBook(book);
+            });
 
             return Ok(books);
         }
@@ -51,7 +59,7 @@ namespace DotNetCoreRest.Controllers
             }
             var bookForAuthor = Mapper.Map<BookDto>(book);
 
-            return Ok(bookForAuthor);
+            return Ok(CreateLinksForBook(bookForAuthor));
         }
 
         [HttpPost()]
@@ -83,10 +91,10 @@ namespace DotNetCoreRest.Controllers
 
             var bookToReturn = Mapper.Map<BookDto>(bookToAdd);
             
-            return CreatedAtRoute("GetBookForAuthor", new { authorId = authorId, id = bookToReturn.Id }, bookToReturn);
+            return CreatedAtRoute("GetBookForAuthor", new { authorId = authorId, id = bookToReturn.Id }, CreateLinksForBook(bookToReturn));
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}", Name = "DeleteBookForAuthor")]
         public IActionResult DeleteBookForAuthor(Guid authorId, Guid id)
         {
             if (!_libraryRepository.AuthorExists(authorId))
@@ -110,7 +118,7 @@ namespace DotNetCoreRest.Controllers
             return NoContent();
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{id}", Name = "UpdateBookForAuthor")]
         public IActionResult UpdateBookForAuthor(Guid authorId, Guid id, [FromBody] BookManipulationDto book)
         {
             if (book == null)
@@ -145,7 +153,7 @@ namespace DotNetCoreRest.Controllers
             return NoContent();
         }
 
-        [HttpPatch("{id}")]
+        [HttpPatch("{id}", Name = "PartiallyUpdateBookForAuthor")]
         public IActionResult PartiallyUpdateBookForAuthor(Guid authorId, Guid id, [FromBody] JsonPatchDocument<BookManipulationDto> patchDoc)
         {
             if (patchDoc == null)
@@ -182,6 +190,16 @@ namespace DotNetCoreRest.Controllers
             }
 
             return NoContent();
+        }
+
+        private BookDto CreateLinksForBook(BookDto book)
+        {
+
+            book.Links.Add(new LinkDto(_urlHelper.Link("GetBookForAuthor", new { id = book.Id }), "self", "GET"));
+            book.Links.Add(new LinkDto(_urlHelper.Link("DeleteBookForAuthor", new { id = book.Id }), "delete_book", "DELETE"));
+            book.Links.Add(new LinkDto(_urlHelper.Link("UpdateBookForAuthor", new { id = book.Id }), "update_book", "PUT"));
+            book.Links.Add(new LinkDto(_urlHelper.Link("PartiallyUpdateBookForAuthor", new { id = book.Id }), "partially_update_book", "PATCH"));
+            return book;
         }
     }
 }
