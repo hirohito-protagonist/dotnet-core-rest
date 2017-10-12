@@ -25,7 +25,7 @@ namespace DotNetCoreRest.Controllers
             _urlHelper = urlHelper;
         }
 
-        [HttpGet()]
+        [HttpGet(Name = "GetBooksForAuthor")]
         public IActionResult GetBooksForAuthor(Guid authorId)
         {
             if (!_libraryRepository.AuthorExists(authorId))
@@ -62,7 +62,7 @@ namespace DotNetCoreRest.Controllers
             return Ok(CreateLinksForBook(bookForAuthor));
         }
 
-        [HttpPost()]
+        [HttpPost(Name = "CreateBookForAuthor")]
         public IActionResult CreateBookForAuthor(Guid authorId, [FromBody] BookManipulationDto book)
         {
             if (book == null)
