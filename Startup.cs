@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Formatters.Xml;
@@ -35,6 +36,13 @@ namespace DotNetCoreRest
             services.AddMvc(setupAction => 
             {
                 setupAction.ReturnHttpNotAcceptable = true;
+
+                var jsonOutputFormatter = setupAction.OutputFormatters.OfType<JsonOutputFormatter>().FirstOrDefault();
+
+                if (jsonOutputFormatter != null)
+                {
+                    jsonOutputFormatter.SupportedMediaTypes.Add("application/vnd.hateoas+json");
+                }
             }).AddXmlSerializerFormatters();
 
             services.AddDbContext<BookLibraryContext>(options => options.UseInMemoryDatabase("BookLibraryDatabase"));

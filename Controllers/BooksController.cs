@@ -26,7 +26,7 @@ namespace DotNetCoreRest.Controllers
         }
 
         [HttpGet(Name = "GetBooksForAuthor")]
-        public IActionResult GetBooksForAuthor(Guid authorId)
+        public IActionResult GetBooksForAuthor(Guid authorId, [FromHeader(Name = "Accept")] string mediaType)
         {
             if (!_libraryRepository.AuthorExists(authorId))
             {
@@ -36,16 +36,19 @@ namespace DotNetCoreRest.Controllers
             var booksFromRepository = _libraryRepository.GetBooksForAuthor(authorId);
             var books = Mapper.Map<IEnumerable<BookDto>>(booksFromRepository);
 
-            books = books.Select(book => 
+            if (mediaType == "application/vnd.hateoas+json")
             {
-                return CreateLinksForBook(book);
-            });
+                books = books.Select(book => 
+                {
+                    return CreateLinksForBook(book);
+                });
+            }
 
             return Ok(books);
         }
 
         [HttpGet("{id}", Name = "GetBookForAuthor")]
-        public IActionResult GetBookForAuthor(Guid authorId, Guid id)
+        public IActionResult GetBookForAuthor(Guid authorId, Guid id, [FromHeader(Name = "Accept")] string mediaType)
         {
             if (!_libraryRepository.AuthorExists(authorId))
             {
@@ -59,7 +62,7 @@ namespace DotNetCoreRest.Controllers
             }
             var bookForAuthor = Mapper.Map<BookDto>(book);
 
-            return Ok(CreateLinksForBook(bookForAuthor));
+            return Ok(mediaType == "application/vnd.hateoas+json" ? CreateLinksForBook(bookForAuthor) : bookForAuthor);
         }
 
         [HttpPost(Name = "CreateBookForAuthor")]

@@ -24,21 +24,25 @@ namespace DotNetCoreRest.Controllers
         }
 
         [HttpGet(Name = "GetAuthors")]
-        public IActionResult GetAuthors(AuthorResourceParameters authorResourceParameters)
+        public IActionResult GetAuthors(AuthorResourceParameters authorResourceParameters, [FromHeader(Name = "Accept")] string mediaType)
         {
 
             var authorsFromRepository = _libraryRepository.GetAuthors(authorResourceParameters);
             var authors = Mapper.Map<IEnumerable<AuthorDto>>(authorsFromRepository);
 
-            authors = authors.Select(author =>
+            if (mediaType == "application/vnd.hateoas+json")
             {
-                return CreateLinksForAuthor(author);
-            });
+                authors = authors.Select(author =>
+                {
+                    return CreateLinksForAuthor(author);
+                });
+            }
+
             return Ok(authors);
         }
 
         [HttpGet("{id}", Name = "GetAuthor")]
-        public IActionResult GetAuthors(Guid id)
+        public IActionResult GetAuthors(Guid id, [FromHeader(Name = "Accept")] string mediaType)
         {
             var authorFromRepository = _libraryRepository.GetAuthor(id);
 
@@ -48,7 +52,7 @@ namespace DotNetCoreRest.Controllers
             }
 
             var author = Mapper.Map<AuthorDto>(authorFromRepository);
-            return Ok(CreateLinksForAuthor(author));
+            return Ok(mediaType == "application/vnd.hateoas+json" ? CreateLinksForAuthor(author) : author);
         }
 
         [HttpPost(Name = "CreateAuthor")]
