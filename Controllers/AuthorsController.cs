@@ -70,7 +70,7 @@ namespace DotNetCoreRest.Controllers
 
             if (!_libraryRepository.Save())
             {
-                return StatusCode(500, "A problem happen with save your author");
+                throw new Exception("A problem happen with save your author");
             }
 
             var authorReturn = Mapper.Map<AuthorDto>(authorEntity);
@@ -91,7 +91,7 @@ namespace DotNetCoreRest.Controllers
 
             if (!_libraryRepository.Save())
             {
-                return StatusCode(500, $"Delete {id} author failed on save.");
+                throw new Exception( $"Delete {id} author failed on save.");
             }
 
             return NoContent();

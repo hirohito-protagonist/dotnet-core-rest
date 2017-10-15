@@ -89,7 +89,7 @@ namespace DotNetCoreRest.Controllers
 
             if (!_libraryRepository.Save())
             {
-                return StatusCode(500, $"Creating a book for author {authorId} failed on save.");
+                throw new Exception($"Creating a book for author {authorId} failed on save.");
             }
 
             var bookToReturn = Mapper.Map<BookDto>(bookToAdd);
@@ -115,7 +115,7 @@ namespace DotNetCoreRest.Controllers
 
             if (!_libraryRepository.Save())
             {
-                return StatusCode(500, $"Deleting book {id} for author {authorId} failed on save.");
+                throw new Exception($"Deleting book {id} for author {authorId} failed on save.");
             }
             
             return NoContent();
@@ -150,7 +150,7 @@ namespace DotNetCoreRest.Controllers
 
             if (!_libraryRepository.Save())
             {
-                return StatusCode(500, $"Updating book {id} for author {authorId} failed on save.");
+                throw new Exception($"Updating book {id} for author {authorId} failed on save.");
             }
 
             return NoContent();
@@ -189,7 +189,7 @@ namespace DotNetCoreRest.Controllers
 
             if (!_libraryRepository.Save())
             {
-                return StatusCode(500, $"Patching book {id} for author {authorId} failed on save.");
+                throw new Exception($"Patching book {id} for author {authorId} failed on save.");
             }
 
             return NoContent();
