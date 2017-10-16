@@ -19,6 +19,7 @@ using DotNetCoreRest.Services;
 using DotNetCoreRest.Helpers;
 using DotNetCoreRest.Entities;
 using AutoMapper;
+using Swashbuckle.AspNetCore.Swagger;
 
 namespace DotNetCoreRest
 {
@@ -45,6 +46,11 @@ namespace DotNetCoreRest
                     jsonOutputFormatter.SupportedMediaTypes.Add("application/vnd.hateoas+json");
                 }
             }).AddXmlSerializerFormatters();
+
+            services.AddSwaggerGen((c) => 
+            {
+                c.SwaggerDoc("v1", new Info { Title = "Books Library API", Description = "Library books REST" });
+            });
 
             services.AddDbContext<BookLibraryContext>(options => options.UseInMemoryDatabase("BookLibraryDatabase"));
             services.AddScoped<ILibraryRepository, LibraryRepository>();
@@ -98,6 +104,12 @@ namespace DotNetCoreRest
             bookLibraryContext.EnsureSeedDataForContext();
             
             app.UseMvc();
+
+            app.UseSwagger();
+            app.UseSwaggerUI((c) => 
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Books Library API");
+            });
         }
     }
 }
