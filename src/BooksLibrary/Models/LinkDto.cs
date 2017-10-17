@@ -1,6 +1,6 @@
 using System;
 
-namespace DotNetCoreRest.Models
+namespace BooksLibrary.Models
 {
     public class LinkDto
     {

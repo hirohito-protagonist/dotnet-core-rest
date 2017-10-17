@@ -15,13 +15,13 @@ using Microsoft.AspNetCore.Mvc.Routing;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Formatters.Xml;
 using Microsoft.AspNetCore.Http;
-using DotNetCoreRest.Services;
-using DotNetCoreRest.Helpers;
-using DotNetCoreRest.Entities;
+using BooksLibrary.Services;
+using BooksLibrary.Helpers;
+using BooksLibrary.Entities;
 using AutoMapper;
 using Swashbuckle.AspNetCore.Swagger;
 
-namespace DotNetCoreRest
+namespace BooksLibrary
 {
     public class Startup
     {

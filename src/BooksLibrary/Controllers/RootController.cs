@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using DotNetCoreRest.Models;
+using BooksLibrary.Models;
 
-namespace DotNetCoreRest.Controllers
+namespace BooksLibrary.Controllers
 {
     [Route("api")]
     public class RootController : Controller

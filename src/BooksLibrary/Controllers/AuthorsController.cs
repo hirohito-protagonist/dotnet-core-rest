@@ -2,13 +2,13 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
-using DotNetCoreRest.Services;
-using DotNetCoreRest.Models;
-using DotNetCoreRest.Entities;
-using DotNetCoreRest.Helpers;
+using BooksLibrary.Services;
+using BooksLibrary.Models;
+using BooksLibrary.Entities;
+using BooksLibrary.Helpers;
 using AutoMapper;
 
-namespace DotNetCoreRest.Controllers
+namespace BooksLibrary.Controllers
 {
     [Route("api/authors")]
     public class AuthorsController : Controller

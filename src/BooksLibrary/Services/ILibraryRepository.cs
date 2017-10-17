@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using DotNetCoreRest.Entities;
-using DotNetCoreRest.Helpers;
+using BooksLibrary.Entities;
+using BooksLibrary.Helpers;
 
-namespace DotNetCoreRest.Services
+namespace BooksLibrary.Services
 {
     public interface ILibraryRepository
     {

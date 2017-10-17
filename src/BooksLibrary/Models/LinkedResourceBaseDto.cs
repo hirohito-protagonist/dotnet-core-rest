@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace DotNetCoreRest.Models
+namespace BooksLibrary.Models
 {
     public abstract class LinkedResourceBaseDto
     {

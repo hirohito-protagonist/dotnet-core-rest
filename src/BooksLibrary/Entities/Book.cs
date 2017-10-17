@@ -2,7 +2,7 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace DotNetCoreRest.Entities
+namespace BooksLibrary.Entities
 {
     public class Book
     {

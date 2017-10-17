@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System;
 
-namespace DotNetCoreRest.Helpers
+namespace BooksLibrary.Helpers
 {
     public class UnprocessableEntityObjectResult : ObjectResult
     {

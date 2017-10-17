@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using DotNetCoreRest.Entities;
-using DotNetCoreRest.Helpers;
+using BooksLibrary.Entities;
+using BooksLibrary.Helpers;
 
-namespace DotNetCoreRest.Services
+namespace BooksLibrary.Services
 {
     public class LibraryRepository : ILibraryRepository
     {

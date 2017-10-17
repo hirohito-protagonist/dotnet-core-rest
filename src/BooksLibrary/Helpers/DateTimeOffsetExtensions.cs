@@ -1,6 +1,6 @@
 using System;
 
-namespace DotNetCoreRest.Helpers
+namespace BooksLibrary.Helpers
 {
     public static class DateTimeOffsetExtensions
     {

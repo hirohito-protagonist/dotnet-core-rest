@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace DotNetCoreRest.Models
+namespace BooksLibrary.Models
 {
     public class BookManipulationDto
     {

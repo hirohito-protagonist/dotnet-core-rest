@@ -4,13 +4,13 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using AutoMapper;
-using DotNetCoreRest.Models;
-using DotNetCoreRest.Services;
-using DotNetCoreRest.Entities;
-using DotNetCoreRest.Helpers;
+using BooksLibrary.Models;
+using BooksLibrary.Services;
+using BooksLibrary.Entities;
+using BooksLibrary.Helpers;
 
 
-namespace DotNetCoreRest.Controllers
+namespace BooksLibrary.Controllers
 {
     [Route("api/authors/{authorId}/books")]
     public class BooksController : Controller 

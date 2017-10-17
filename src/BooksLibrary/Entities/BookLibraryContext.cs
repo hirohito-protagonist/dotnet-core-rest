@@ -1,6 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 
-namespace DotNetCoreRest.Entities
+namespace BooksLibrary.Entities
 {
     public class BookLibraryContext : DbContext
     {
