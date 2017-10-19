@@ -18,7 +18,7 @@ Included
 - Logging
 - [HATEOAS](https://en.wikipedia.org/wiki/HATEOAS) via Accept header `vnd.hateoas+json`
 - [Swagger UI](https://swagger.io/swagger-ui/) for discover API
-- `TODO` Caching
+- HTTP Caching
 - `TODO` Testing - unit and integration
 
 
