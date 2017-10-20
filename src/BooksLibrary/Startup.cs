@@ -20,6 +20,7 @@ using BooksLibrary.Helpers;
 using BooksLibrary.Entities;
 using AutoMapper;
 using Swashbuckle.AspNetCore.Swagger;
+using AspNetCoreRateLimit;
 
 namespace BooksLibrary
 {
@@ -71,6 +72,29 @@ namespace BooksLibrary
                 validationModelOptions.AddMustRevalidate = true;
             });
             
+            services.AddMemoryCache();
+
+            services.Configure<IpRateLimitOptions>((options) => 
+            {
+                options.GeneralRules = new List<RateLimitRule>()
+                {
+                    new RateLimitRule()
+                    {
+                        Endpoint = "*",
+                        Limit = 1000,
+                        Period = "5m"
+                    },
+                    new RateLimitRule()
+                    {
+                        Endpoint = "*",
+                        Limit = 200,
+                        Period = "10s"
+                    }
+                };
+            });
+
+            services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();
+            services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -113,6 +137,7 @@ namespace BooksLibrary
 
             bookLibraryContext.EnsureSeedDataForContext();
             
+            app.UseIpRateLimiting();
             app.UseHttpCacheHeaders();
 
             app.UseMvc();

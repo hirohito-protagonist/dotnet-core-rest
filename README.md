@@ -19,6 +19,7 @@ Included
 - [HATEOAS](https://en.wikipedia.org/wiki/HATEOAS) via Accept header `vnd.hateoas+json`
 - [Swagger UI](https://swagger.io/swagger-ui/) for discover API
 - HTTP Caching
+- Control rate of allowed requests by [AspNetCoreRateLimit](https://github.com/stefanprodan/AspNetCoreRateLimit)
 - `TODO` Testing - unit and integration
 
 
