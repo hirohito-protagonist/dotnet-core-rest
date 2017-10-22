@@ -98,8 +98,12 @@ namespace BooksLibrary
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, BookLibraryContext bookLibraryContext)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory logger, BookLibraryContext bookLibraryContext)
         {
+
+            logger.AddConsole();
+            logger.AddDebug(LogLevel.Information);
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
