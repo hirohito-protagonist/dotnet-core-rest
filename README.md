@@ -9,7 +9,7 @@ ___
 This REST API is example an book library manager to showcasing common patterns and techniques.
 
 Included
-- [CRUD](https://pl.wikipedia.org/wiki/CRUD) operation for authors and books
+- [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) operation for authors and books
 - [DTO](https://en.wikipedia.org/wiki/Data_transfer_object) pattern via [AutoMapper](http://automapper.org/)
 - [The Repository pattern](https://msdn.microsoft.com/en-us/library/ff649690.aspx)
 - [JSON PATCH](http://jsonpatch.com/) resource for partially update
