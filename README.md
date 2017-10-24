@@ -20,7 +20,7 @@ Included
 - [Swagger UI](https://swagger.io/swagger-ui/) for discover API
 - HTTP Caching
 - Control rate of allowed requests by [AspNetCoreRateLimit](https://github.com/stefanprodan/AspNetCoreRateLimit)
-- `TODO` Testing - unit and integration
+- Integration test
 
 
 

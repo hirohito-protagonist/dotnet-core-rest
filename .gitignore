@@ -1,2 +1,4 @@
 src/BooksLibrary/bin
 src/BooksLibrary/obj
+test/BooksLibrary/Tests/Integration/bin
+test/BooksLibrary/Tests/Integration/obj
