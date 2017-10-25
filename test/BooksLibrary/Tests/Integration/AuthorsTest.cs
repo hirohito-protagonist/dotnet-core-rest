@@ -19,13 +19,24 @@ namespace BooksLibrary.Tests.Integration
         [Fact]
         public async void TestGetAuthors()
         {
-            var response = await this.Client.GetAsync("api/authors");
+
+            // Arrange
+            var clientId = "cl-key-b";
+            var ip = "::1";
+
+            // Act
+            var request = new HttpRequestMessage(HttpMethod.Get, "api/authors");
+            request.Headers.Add("X-ClientId", clientId);
+            request.Headers.Add("X-Real-IP", ip);
+
+            var response = await this.Client.SendAsync(request);
 
             response.EnsureSuccessStatusCode();
             
             string raw = await response.Content.ReadAsStringAsync();
             List<AuthorDto> outputModel = JsonConvert.DeserializeObject<List<AuthorDto>>(raw);
 
+            // Assert
             Assert.Equal(6, outputModel.Count);
         }
     }

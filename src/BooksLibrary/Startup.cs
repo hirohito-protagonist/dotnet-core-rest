@@ -141,11 +141,7 @@ namespace BooksLibrary
 
             bookLibraryContext.EnsureSeedDataForContext();
             
-
-            if (env.IsDevelopment()) {
-                app.UseIpRateLimiting();
-            }
-            
+            app.UseIpRateLimiting();
             app.UseHttpCacheHeaders();
 
             app.UseMvc();
