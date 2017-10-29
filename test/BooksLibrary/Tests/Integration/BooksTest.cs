@@ -80,5 +80,32 @@ namespace BooksLibrary.Tests.Integration
 
             Assert.Equal(2, outputModel.Count);
         }
+      
+        [Fact(DisplayName = "it should delete book for defined id")]
+        public async void TestDeletedBookForValidId()
+        {
+            var author = await CreateDummyAuthor();
+            var book = await CreateDummyBookForAuthor(author.Id);
+
+            var request = new HttpRequestMessage(HttpMethod.Delete, "api/authors/" + author.Id + "/books/" + book.Id);
+            this.AddRequestIpLimitHeaders(request);
+
+            var response = await this.Client.SendAsync(request);
+            
+            Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
+        }
+
+        [Fact(DisplayName = "it should check if the book is in the system before delete")]
+        public async void TestDeletedBookForInValidId()
+        {
+            var author = await CreateDummyAuthor();
+
+            var request = new HttpRequestMessage(HttpMethod.Delete, "api/authors/" + author.Id + "/books/123test");
+            this.AddRequestIpLimitHeaders(request);
+
+            var response = await this.Client.SendAsync(request);
+            
+            Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+        }
     }
 }
