@@ -107,5 +107,22 @@ namespace BooksLibrary.Tests.Integration
             
             Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
         }
+
+
+        [Fact(DisplayName = "it should validated book data before it will be add to system")]
+        public async void TestValidationBookCreation()
+        {
+            var author = await CreateDummyAuthor();
+
+            var content = new StringContent(JsonConvert.SerializeObject(new BookManipulationDto()), Encoding.UTF8, "application/json");
+
+            var request = new HttpRequestMessage(HttpMethod.Post, "api/authors/" + author.Id + "/books");
+            request.Content = content;
+            this.AddRequestIpLimitHeaders(request);
+
+            var response = await this.Client.SendAsync(request);
+            
+            Assert.Equal(422, (int)response.StatusCode);
+        }        
     }
 }
