@@ -123,6 +123,39 @@ namespace BooksLibrary.Tests.Integration
             var response = await this.Client.SendAsync(request);
             
             Assert.Equal(422, (int)response.StatusCode);
-        }        
+        }
+
+        [Fact(DisplayName = "it should update existing book")]
+        public async void TestUpdateBook()
+        {
+            var author = await CreateDummyAuthor();
+            var book = await CreateDummyBookForAuthor(author.Id);
+            var serializedBook = new StringContent(JsonConvert.SerializeObject(new BookManipulationDto()
+            {
+                Title = "Updated title",
+                Description = "Updated description"
+            }), Encoding.UTF8, "application/json");
+
+            var updateRequest = new HttpRequestMessage(HttpMethod.Put, "api/authors/" + author.Id + "/books/" + book.Id);
+            updateRequest.Content = serializedBook;
+            this.AddRequestIpLimitHeaders(updateRequest);
+
+            var updateResponse = await this.Client.SendAsync(updateRequest);
+
+            Assert.Equal(HttpStatusCode.NoContent, updateResponse.StatusCode);
+
+            var request = new HttpRequestMessage(HttpMethod.Get, "api/authors/" + author.Id + "/books/" + book.Id);
+            this.AddRequestIpLimitHeaders(request);
+
+            var response = await this.Client.SendAsync(request);
+
+            response.EnsureSuccessStatusCode();
+            
+            string raw = await response.Content.ReadAsStringAsync();
+            BookDto updatedBook = JsonConvert.DeserializeObject<BookDto>(raw);
+
+            Assert.Equal("Updated title", updatedBook.Title);
+            Assert.Equal("Updated description", updatedBook.Description);
+        }
     }
 }
