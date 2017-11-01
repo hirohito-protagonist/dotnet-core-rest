@@ -73,7 +73,7 @@ namespace BooksLibrary.Tests.Integration
         {
             AuthorDto author = await CreateDummyAuthor();
 
-            var request = new HttpRequestMessage(HttpMethod.Get, "api/authors/" + author.Id);
+            var request = new HttpRequestMessage(HttpMethod.Get, $"api/authors/{author.Id}");
             this.AddRequestIpLimitHeaders(request);
 
             var response = await this.Client.SendAsync(request);
@@ -87,7 +87,7 @@ namespace BooksLibrary.Tests.Integration
         {
             AuthorDto author = await CreateDummyAuthor();
 
-            var request = new HttpRequestMessage(HttpMethod.Delete, "api/authors/" + author.Id);
+            var request = new HttpRequestMessage(HttpMethod.Delete, $"api/authors/{author.Id}");
             this.AddRequestIpLimitHeaders(request);
 
             var response = await this.Client.SendAsync(request);

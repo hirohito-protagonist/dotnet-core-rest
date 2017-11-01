@@ -42,15 +42,15 @@ namespace BooksLibrary.Tests.Integration
             return JsonConvert.DeserializeObject<AuthorDto>(rawAuthor);
         }
 
-        private async Task<BookDto> CreateDummyBookForAuthor(Guid authorId)
+        private async Task<BookDto> CreateDummyBookForAuthor(Guid authorId, string title = "test", string description = "test")
         {
             var content = new StringContent(JsonConvert.SerializeObject(new BookManipulationDto()
             {
-                Title = "test",
-                Description = "test"
+                Title = title,
+                Description = description,
             }), Encoding.UTF8, "application/json");
 
-            var request = new HttpRequestMessage(HttpMethod.Post, "api/authors/" + authorId + "/books");
+            var request = new HttpRequestMessage(HttpMethod.Post, $"api/authors/{authorId}/books");
             request.Content = content;
             this.AddRequestIpLimitHeaders(request);
 
@@ -68,7 +68,7 @@ namespace BooksLibrary.Tests.Integration
             var book1 = await CreateDummyBookForAuthor(author.Id);
             var book2 = await CreateDummyBookForAuthor(author.Id);
 
-            var request = new HttpRequestMessage(HttpMethod.Get, "api/authors/" + author.Id + "/books");
+            var request = new HttpRequestMessage(HttpMethod.Get, $"api/authors/{author.Id}/books");
             this.AddRequestIpLimitHeaders(request);
 
             var response = await this.Client.SendAsync(request);
@@ -87,7 +87,7 @@ namespace BooksLibrary.Tests.Integration
             var author = await CreateDummyAuthor();
             var book = await CreateDummyBookForAuthor(author.Id);
 
-            var request = new HttpRequestMessage(HttpMethod.Delete, "api/authors/" + author.Id + "/books/" + book.Id);
+            var request = new HttpRequestMessage(HttpMethod.Delete, $"api/authors/{author.Id}/books/{book.Id}");
             this.AddRequestIpLimitHeaders(request);
 
             var response = await this.Client.SendAsync(request);
@@ -100,7 +100,7 @@ namespace BooksLibrary.Tests.Integration
         {
             var author = await CreateDummyAuthor();
 
-            var request = new HttpRequestMessage(HttpMethod.Delete, "api/authors/" + author.Id + "/books/123test");
+            var request = new HttpRequestMessage(HttpMethod.Delete, $"api/authors/{author.Id}/books/123test");
             this.AddRequestIpLimitHeaders(request);
 
             var response = await this.Client.SendAsync(request);
@@ -116,7 +116,7 @@ namespace BooksLibrary.Tests.Integration
 
             var content = new StringContent(JsonConvert.SerializeObject(new BookManipulationDto()), Encoding.UTF8, "application/json");
 
-            var request = new HttpRequestMessage(HttpMethod.Post, "api/authors/" + author.Id + "/books");
+            var request = new HttpRequestMessage(HttpMethod.Post, $"api/authors/{author.Id}/books");
             request.Content = content;
             this.AddRequestIpLimitHeaders(request);
 
@@ -136,7 +136,7 @@ namespace BooksLibrary.Tests.Integration
                 Description = "Updated description"
             }), Encoding.UTF8, "application/json");
 
-            var updateRequest = new HttpRequestMessage(HttpMethod.Put, "api/authors/" + author.Id + "/books/" + book.Id);
+            var updateRequest = new HttpRequestMessage(HttpMethod.Put, $"api/authors/{author.Id}/books/{book.Id}");
             updateRequest.Content = serializedBook;
             this.AddRequestIpLimitHeaders(updateRequest);
 
@@ -144,7 +144,7 @@ namespace BooksLibrary.Tests.Integration
 
             Assert.Equal(HttpStatusCode.NoContent, updateResponse.StatusCode);
 
-            var request = new HttpRequestMessage(HttpMethod.Get, "api/authors/" + author.Id + "/books/" + book.Id);
+            var request = new HttpRequestMessage(HttpMethod.Get, $"api/authors/{author.Id}/books/{book.Id}");
             this.AddRequestIpLimitHeaders(request);
 
             var response = await this.Client.SendAsync(request);
