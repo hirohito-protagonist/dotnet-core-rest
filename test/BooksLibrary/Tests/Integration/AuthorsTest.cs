@@ -16,36 +16,11 @@ namespace BooksLibrary.Tests.Integration
     public class AuthorsIntegrationTest : IntegrationTestsBase<Startup>
     {
 
-        private void AddRequestIpLimitHeaders(HttpRequestMessage request)
-        {
-            var clientId = "cl-key-b";
-            var ip = "::1";
-
-            request.Headers.Add("X-ClientId", clientId);
-            request.Headers.Add("X-Real-IP", ip);
-        }
-
-        private async Task<AuthorDto> CreateDummyAuthor()
-        {
-            var content = new StringContent(JsonConvert.SerializeObject(new AuthorCreationDto()),
-                                    Encoding.UTF8, "application/json");
-
-            var request = new HttpRequestMessage(HttpMethod.Post, "api/authors");
-            request.Content = content;
-            this.AddRequestIpLimitHeaders(request);
-
-            var response = await this.Client.SendAsync(request);
-
-            string rawAuthor = await response.Content.ReadAsStringAsync();
-            
-            return JsonConvert.DeserializeObject<AuthorDto>(rawAuthor);
-        }
-
         [Fact(DisplayName = "it should return collection of authors")]
         public async void TestGetAuthors()
         {
             var request = new HttpRequestMessage(HttpMethod.Get, "api/authors");
-            this.AddRequestIpLimitHeaders(request);
+            this.TestHelpers.AddRequestIpLimitHeaders(request);
 
             var response = await this.Client.SendAsync(request);
 
@@ -61,7 +36,7 @@ namespace BooksLibrary.Tests.Integration
         public async void TestGetAuthorWithInvalidId()
         {
             var request = new HttpRequestMessage(HttpMethod.Get, "api/authors/123test");
-            this.AddRequestIpLimitHeaders(request);
+            this.TestHelpers.AddRequestIpLimitHeaders(request);
 
             var response = await this.Client.SendAsync(request);
 
@@ -71,10 +46,10 @@ namespace BooksLibrary.Tests.Integration
         [Fact(DisplayName = "it should find author for specific id")]
         public async void TestGetAuthorWithValidId()
         {
-            AuthorDto author = await CreateDummyAuthor();
+            AuthorDto author = await this.CreateDummyAuthor();
 
             var request = new HttpRequestMessage(HttpMethod.Get, $"api/authors/{author.Id}");
-            this.AddRequestIpLimitHeaders(request);
+            this.TestHelpers.AddRequestIpLimitHeaders(request);
 
             var response = await this.Client.SendAsync(request);
 
@@ -85,10 +60,10 @@ namespace BooksLibrary.Tests.Integration
        [Fact(DisplayName = "it should delete author for specific id")]
         public async void TestDeleteAuthorWithValidId()
         {
-            AuthorDto author = await CreateDummyAuthor();
+            AuthorDto author = await this.CreateDummyAuthor();
 
             var request = new HttpRequestMessage(HttpMethod.Delete, $"api/authors/{author.Id}");
-            this.AddRequestIpLimitHeaders(request);
+            this.TestHelpers.AddRequestIpLimitHeaders(request);
 
             var response = await this.Client.SendAsync(request);
 
@@ -100,7 +75,7 @@ namespace BooksLibrary.Tests.Integration
         {
 
             var request = new HttpRequestMessage(HttpMethod.Delete, "api/authors/123test");
-            this.AddRequestIpLimitHeaders(request);
+            this.TestHelpers.AddRequestIpLimitHeaders(request);
 
             var response = await this.Client.SendAsync(request);
 
@@ -116,7 +91,7 @@ namespace BooksLibrary.Tests.Integration
 
             var request = new HttpRequestMessage(HttpMethod.Post, "api/authors");
             request.Content = content;
-            this.AddRequestIpLimitHeaders(request);
+            this.TestHelpers.AddRequestIpLimitHeaders(request);
 
             var response = await this.Client.SendAsync(request);
 
