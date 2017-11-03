@@ -112,5 +112,34 @@ namespace BooksLibrary.Tests.Integration
             Assert.Equal("Updated title", updatedBook.Title);
             Assert.Equal("Updated description", updatedBook.Description);
         }
+
+        [Fact(DisplayName = "it should update partially existing book")]
+        public async void TestPartialUpdateBook()
+        {
+            var author = await this.CreateDummyAuthor();
+            var book = await this.CreateDummyBookForAuthor(author.Id, "Test partial", "Test partial description");
+            var serializedBook = new StringContent("[{\"op\":\"replace\", \"path\":\"/title\", \"value\":\"Partial update\"}]", Encoding.UTF8, "application/json");
+
+            var updateRequest = new HttpRequestMessage(new HttpMethod("patch"), $"api/authors/{author.Id}/books/{book.Id}");
+            updateRequest.Content = serializedBook;
+            this.TestHelpers.AddRequestIpLimitHeaders(updateRequest);
+
+            var updateResponse = await this.Client.SendAsync(updateRequest);
+
+            Assert.Equal(HttpStatusCode.NoContent, updateResponse.StatusCode);
+
+            var request = new HttpRequestMessage(HttpMethod.Get, $"api/authors/{author.Id}/books/{book.Id}");
+            this.TestHelpers.AddRequestIpLimitHeaders(request);
+
+            var response = await this.Client.SendAsync(request);
+
+            response.EnsureSuccessStatusCode();
+            
+            string raw = await response.Content.ReadAsStringAsync();
+            BookDto updatedBook = JsonConvert.DeserializeObject<BookDto>(raw);
+
+            Assert.Equal("Partial update", updatedBook.Title);
+            Assert.Equal("Test partial description", updatedBook.Description);
+        }
     }
 }
