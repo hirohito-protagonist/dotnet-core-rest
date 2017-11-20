@@ -25,4 +25,4 @@ Included
 
 
 # License
- [MIT](/LICENSE)
+ [UNLICENSE](/LICENSE)
