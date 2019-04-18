@@ -22,7 +22,28 @@ Included
 - Control rate of allowed requests by [AspNetCoreRateLimit](https://github.com/stefanprodan/AspNetCoreRateLimit)
 - Integration test
 
+# Prerequisites
 
+* OS X, Windows or Linux
+* [.NET Core](https://www.microsoft.com/net/core) and [.NET Core SDK](https://www.microsoft.com/net/core)
+* [Visual Studio Code](https://code.visualstudio.com/) with [C# extension](https://github.com/OmniSharp/omnisharp-vscode) (or Visual Studio 2015 or newer)
+
+# Getting Started
+
+**Step 1**. Clone the latest version of **dotnet-core-rest** on your local machine by running:
+
+```shell
+$ git clone -o dotnet-core-rest -b master --single-branch \
+      https://github.com/hirohito-protagonist/dotnet-core-rest.git BookLibraryREST
+$ cd BookLibraryREST
+```
+
+**Step 2**. Run the web server:
+
+```shell
+$ cd src/BooksLibrary
+$ dotnet run
+```
 
 # License
  [UNLICENSE](/LICENSE)
